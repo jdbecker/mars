@@ -1,0 +1,6 @@
+# Constants
+APPNAME = "Mars"
+FPS = 30
+TILESIZE = 32
+TILESWIDE = 25
+VIEWDIST = 11

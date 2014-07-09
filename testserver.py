@@ -5,13 +5,14 @@ sys.path.append('lib/')
 import PodSixNet.Channel
 import PodSixNet.Server
 from time import sleep
-import thing,state
+import thing,state,const
 import socket
+import pygame
 
 class ClientChannel(PodSixNet.Channel.Channel):
     def Network(self, data):
         pass
-#        print data
+        #print data
     def Network_login(self, data):
         print "Login Started..."
         self._server.login(data['name'],data['userid'])
@@ -30,6 +31,7 @@ class MyServer(PodSixNet.Server.Server):
     channelClass = ClientChannel
     def __init__(self, *args, **kwargs):
         PodSixNet.Server.Server.__init__(self, *args, **kwargs)
+        self.clock = pygame.time.Clock()
         self.users = []
         self.players = {}
         self.state = state.State()
@@ -49,7 +51,9 @@ class MyServer(PodSixNet.Server.Server):
         channel.Send(data)
         print "Send Successful"
     def update(self):
+        self.clock.tick(const.FPS)
         self.state.update()
+        self.Pump()
     def moveLeft(self, userid):
         player = self.players[userid]
         player.moveLeft()
@@ -73,5 +77,4 @@ print "STARTING SERVER ON LOCALHOST"
 s = MyServer(localaddr=(socket.gethostname(),4001))
 while True:
     s.update()
-    s.Pump()
-    sleep(0.01)
+    sleep(1./30)

@@ -1,4 +1,4 @@
-import coor,velocity,const
+import coor,velocity,const,tile
 import copy
 import pygame
 
@@ -7,27 +7,29 @@ class Thing():
     """High-level (and therefore inheritable) class to act as the framework for
     positional relation of... things."""
     
-    def __init__(self, coords, name="something"):
-        """Accept either a tuple of (x,y) or a coor object for coords."""
-        if isinstance(coords, coor.Coor):
-            newcoords = coords
+    def __init__(self, newcoor, name="something"):
+        """Accept either a tuple of (x,y) or a coor object for coor."""
+        if isinstance(newcoor, coor.Coor):
+            self.coor = newcoor
         else:
-            x = coords[0]
-            y = coords[1]
-            newcoords = coor.Coor(x,y)
-        self.coords = newcoords
+            x = newcoor[0]
+            y = newcoor[1]
+            self.coor = coor.Coor(x,y)
         self.name = name
+        self.tile = tile.Tile("desert")
         self.speed = 1
         self.vel = velocity.Velocity()
 
     def sees(self, thing2):
         """Use the sees method of self and thing2 coors to find their relative
-        positions, then return a copy of thing2 with new coords.
+        positions, then return a copy of thing2 with new coor.
         """
         seenThing = copy.deepcopy(thing2)
-        seenThing.coords = self.coords.sees(thing2.coords)
+        seenThing.coor = self.coor.sees(thing2.coor)
         return seenThing
 
+    def setTile(self, tile):
+        self.tile = tile
 
     def setSpeed(self, speed):
         """Modify movement speed."""
@@ -37,9 +39,9 @@ class Thing():
         """Call once per frame to keep the position of self updated for its
         velocity. Stop at gridlines.
         """
-        if self.coords.shiftSnapx(self.vel.x):
+        if self.coor.shiftSnapx(self.vel.x):
             self.vel.stopx()
-        if self.coords.shiftSnapy(self.vel.y):
+        if self.coor.shiftSnapy(self.vel.y):
             self.vel.stopy()
         return
 
@@ -73,12 +75,9 @@ class Thing():
         return self.vel.stopped()
 
     def onScreen(self):
-        """Return true if both self is onScreen."""
-        return self.coords.onScreen()
+        """Return true if self is onScreen."""
+        return self.coor.onScreen()
 
     def draw(self, surface):
-        """Draw self onto surface using pygame."""
-        x = self.coords.getPix()[0]
-        y = self.coords.getPix()[1]
-        rec = (x,y,const.TILESIZE,const.TILESIZE)
-        pygame.draw.rect(surface, pygame.Color('black'), rec, 0)
+        """Draw self's tile onto surface."""
+        self.tile.draw(surface, self.coor)

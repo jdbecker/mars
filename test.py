@@ -1,7 +1,7 @@
 import sys
 sys.path.append('lib/')
 
-#"""
+"""
 import PodSixNet.Channel
 import PodSixNet.Server
 from time import sleep
@@ -35,9 +35,9 @@ while True:
     sleep(0.01)
     for user in boxesServe.users:
         pass
-#"""
-
 """
+
+#"""
 import thing
 import screen
 p = thing.Thing((0,0))
@@ -47,10 +47,10 @@ for x in range(-12,13):
     for y in range(-12,13):
         if (x+y)%2 == 1:
             things.append(thing.Thing((x,y)))
-s = screen.Screen(p)
+s = screen.Screen()
 while s.run:
-    s.update(things)
-"""
+    s.draw(things)
+#"""
 
 """
 import axis

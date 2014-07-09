@@ -1,3 +1,6 @@
+import sys
+sys.path.append('lib/')
+
 from PodSixNet.Connection import ConnectionListener, connection
 from time import sleep
 import pygame
@@ -34,7 +37,7 @@ class Client(ConnectionListener):
 
     def Network(self, data):
         pass
-#        print data
+        #print data
 
     def Network_getuserid(self, data):
         self.userid = data['userid']

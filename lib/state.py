@@ -1,4 +1,4 @@
-import thing
+import thing,tile
 
 class State():
 
@@ -9,6 +9,14 @@ class State():
 
     def __init__(self):
         self.things = []
+        newThing = thing.Thing((1,0))
+        newThing.setTile(tile.Desert())
+        self.things.append(newThing)
+##        for x in [(i-2) for i in range(5)]:
+##            for y in [(i-2) for i in range(5)]:
+##                newThing = thing.Thing((x,y))
+##                newThing.setTile(tile.Desert())
+##                self.things.append(newThing)
 
     def update(self):
         """Calls the update method of every thing maintained in the state.

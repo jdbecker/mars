@@ -1,5 +1,14 @@
 import sys
-sys.path.append('lib/')
+sys.path.append('server_lib/')
+import pygame,coor,axis,thing,const
+
+t1 = thing.Thing((0,0))
+assert t1.tileType == "desert"
+assert t1.tileNum in (5,6,7,8,18,19,20,21,31,32,33,34,44,45,46,47)
+
+assert const.VIEWDIST == 11
+t2 = thing.Thing((0,10))
+
 
 """
 import PodSixNet.Channel
@@ -37,7 +46,7 @@ while True:
         pass
 """
 
-#"""
+"""
 import thing
 import screen
 p = thing.Thing((0,0))
@@ -50,7 +59,7 @@ for x in range(-12,13):
 s = screen.Screen()
 while s.run:
     s.draw(things)
-#"""
+"""
 
 """
 import axis
@@ -84,7 +93,6 @@ print j.intersects(i)
 """
 
 """
-import coor,axis
 p1 = coor.Coor(0,5)
 print p1.display()
 x2 = axis.Axis(2)

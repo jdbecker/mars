@@ -23,9 +23,9 @@ class Tile():
         src = const.TILESET[self.tileset][0]
         surface.blit( src, [x,y], self.rec )
 
-class Desert(Tile):
+class Sand(Tile):
 
-    """Creates a default empty desert tile."""
+    """Creates a default empty sand tile."""
 
     def __init__(self):
         emptyTiles = [5,6,7,8,18,19,20,21,31,32,33,34,44,45,46,47]

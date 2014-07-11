@@ -77,4 +77,3 @@ print "STARTING SERVER ON LOCALHOST"
 s = MyServer(localaddr=(socket.gethostname(),4001))
 while True:
     s.update()
-    sleep(1./30)

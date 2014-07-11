@@ -1,11 +1,8 @@
 import pygame
 
-# Constants
-APPNAME = "Mars"
+# Client Constants
+APPNAME = "Mars Client"
 FPS = 30
-TILESIZE = 32
-TILESWIDE = 25
-VIEWDIST = 11
 
 TILESET = {}
 

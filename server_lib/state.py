@@ -1,4 +1,4 @@
-import thing,tile
+import thing
 
 class State():
 
@@ -9,14 +9,10 @@ class State():
 
     def __init__(self):
         self.things = []
-        newThing = thing.Thing((1,0))
-        newThing.setTile(tile.Desert())
+        self.playersOn = []
+        self.playersOff = []
+        newThing = thing.Thing((0,0))
         self.things.append(newThing)
-##        for x in [(i-2) for i in range(5)]:
-##            for y in [(i-2) for i in range(5)]:
-##                newThing = thing.Thing((x,y))
-##                newThing.setTile(tile.Desert())
-##                self.things.append(newThing)
 
     def update(self):
         """Calls the update method of every thing maintained in the state.
@@ -26,10 +22,11 @@ class State():
             thing.update()
 
     def view(self,player):
-        """Return a list of things as seen by a player."""
+        """Return a list of things as seen by a player as a nested tuple in the
+        form: ( (x, y), (tileType, tileNum) )"""
         seeThings = []
         for thing in self.things:
             seeThing = player.sees(thing)
             if seeThing.onScreen():
-                seeThings.append(seeThing)
+                seeThings.append(seeThing.view())
         return seeThings

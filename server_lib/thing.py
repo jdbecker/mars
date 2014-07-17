@@ -7,7 +7,7 @@ class Thing():
     """High-level (and therefore inheritable) class to act as the framework for
     positional relation of... things."""
     
-    def __init__(self, newcoor, tile=("desert",const.Sand()) ):
+    def __init__(self, newcoor, tile=None ):
         """Accept either a tuple of (x,y) or a coor object for coor. Use a tuple
         for newtile = (tileType,tileNum)"""
         if isinstance(newcoor, coor.Coor):
@@ -16,6 +16,8 @@ class Thing():
             x = newcoor[0]
             y = newcoor[1]
             self.coor = coor.Coor(x,y)
+        if not tile:
+            tile = ( "desert", const.Sand() )
         self.tile = tile
 
     def sees(self, thing2):
@@ -37,4 +39,6 @@ class Thing():
     def view(self):
         """Return self as a nested tuple in the form ( (x, y), (tileType,
         tileNum) )"""
-        return ( (self.coor.getPix), (self.tile) )
+        x,y = self.coor.getPix()
+        tileset,num = self.tile
+        return ( (x,y), (tileset,num) )

@@ -8,20 +8,20 @@ class Tile():
     importing into other classes.
     """
 
-    def __init__(self, tileset, num=311):
+    def __init__(self, x, y, tileset, num):
         """Identify and store tileset and tilenum. Tileset should be entered
         as a string.
         """
+        self.x = x
+        self.y = y
         self.num = num
         self.tileset = tileset
-        self.rec = const.TILESET[self.tileset][1][self.num]
+        self.src = const.TILESETS[self.tileset][0]
+        self.rec = const.TILESETS[self.tileset][1][self.num]
 
-    def draw(self, surface, coor):
+    def draw(self, surface):
         """Draws self onto surface at coor."""
-        x = coor.getPix()[0]
-        y = coor.getPix()[1]
-        src = const.TILESET[self.tileset][0]
-        surface.blit( src, [x,y], self.rec )
+        surface.blit( self.src, [self.x,self.y], self.rec )
 
 class Sand(Tile):
 

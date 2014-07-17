@@ -12,8 +12,21 @@ class ClientChannel(PodSixNet.Channel.Channel):
 
     def Network(self, data):
         """Simply print data received. For debugging."""
-        print data
-        return
+        pass
+        #print data
+
+    def Network_login(self, data):
+        """Relay the name string contained in data to the server login method."""
+        print data['name'],"received"
+        self._server.login(self, data['name'])
+
+    def Network_disconnected(self, data):
+        """Relay the channel to the server's disconnect method."""
+        self._server.disconnect(self)
+
+    def Network_button(self, data):
+        """Call the server's button push method."""
+        self._server.button(self, data['button'])
 
 
 class MarsServer(PodSixNet.Server.Server):
@@ -35,22 +48,51 @@ class MarsServer(PodSixNet.Server.Server):
     def Connected(self, channel, addr):
         """Handle incoming connections, including logging them in as a player
         with a distinct player.channel"""
+        print "New connection:", channel, addr
+
+    def disconnect(self, channel):
+        """Pass the channel to the logoff method of the game state, to log
+        out the current player.
+        """
+        self.state.logoff(channel)
+
+    def login(self, channel, name):
+        """Call the login method of the game state."""
+        print "login method started"
+        logStatus,message = self.state.login(channel, name)
+        data = {'action':'message','message':message}
+        channel.Send(data)
+        if logStatus:
+            data = {'action':'logStatus','logStatus':logStatus}
+            channel.Send(data)
+
+    def button(self, channel, button):
+        """Relay the button push to the appropriate method."""
+        if button == 'LEFT':
+            self.state.playersOn[channel].moveLeft()
+        if button == 'RIGHT':
+            self.state.playersOn[channel].moveRight()
+        if button == 'UP':
+            self.state.playersOn[channel].moveUp()
+        if button == 'DOWN':
+            self.state.playersOn[channel].moveDown()
 
     def update(self):
         """Call every frame to keep connection and game state updated."""
-        self.clock.tick(const.FPS)
         self.state.update()
         self.Pump()
 
     def display(self):
         """Call every frame to keep connected clients updated"""
-        for player in self.state.playersOn:
-            package = pickle.dumps({'things':self.state.view(player)})
+        players = self.state.playersOn
+        for channel in players:
+            package = pickle.dumps({'things':self.state.view(players[channel])})
             data = {'action':'update','package':package}
-            player.channel.Send(data)
+            channel.Send(data)
 
 print "STARTING SERVER ON LOCALHOST"
 thisServer = MarsServer(localaddr = (socket.gethostname(), const.PORT) )
 while True:
+    thisServer.clock.tick(const.FPS)
     thisServer.update()
     thisServer.display()

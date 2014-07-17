@@ -1,6 +1,6 @@
 import thing,velocity
 
-class Mobile(Thing):
+class Mobile(thing.Thing):
 
     """Any Thing that can move."""
 

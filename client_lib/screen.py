@@ -14,14 +14,13 @@ class Screen():
         pygame.display.set_caption(const.APPNAME)
         self.run = True
 
-    def draw(self, things):
-        """Update loop, called once per frame, and draws each thing object
-        in list things.
+    def draw(self, tiles):
+        """Update loop, called once per frame, and draws each tile object
+        in list tiles.
         """
         self.surface.fill(pygame.Color('white'))
-        for thing in things:
-            thing.update()
-            thing.draw(self.surface)
+        for tile in tiles:
+            tile.draw(self.surface)
         pygame.display.flip()
         return pygame.event.get()
 

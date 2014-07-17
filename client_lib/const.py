@@ -3,8 +3,11 @@ import pygame
 # Client Constants
 APPNAME = "Mars Client"
 FPS = 30
+TILESIZE = 32
+TILESWIDE = 25
+PORT = 4001
 
-TILESET = {}
+TILESETS = {}
 
 # Build Desert Tileset
 tiles = []
@@ -17,4 +20,4 @@ for tilenum in range(312):
     x = x * TILESIZE
     y = y * TILESIZE
     tiles.append( pygame.Rect( x, y, TILESIZE, TILESIZE ) )
-TILESET["desert"] = (pygame.image.load("lib\desert_tileset32.png"),tiles)
+TILESETS["desert"] = (pygame.image.load("client_lib\imgs\desert_tileset32.png"),tiles)

@@ -1,5 +1,5 @@
 import sys
-sys.path.append('server_lib/')
+sys.path.append('lib/')
 import cPickle as pickle
 import PodSixNet.Channel
 import PodSixNet.Server

@@ -1,5 +1,5 @@
 import sys
-sys.path.append('client_lib/')
+sys.path.append('lib/')
 
 from PodSixNet.Connection import ConnectionListener, connection
 from time import sleep

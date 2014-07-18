@@ -1,10 +1,7 @@
-import sys
-sys.path.append('lib/')
 import cPickle as pickle
 import PodSixNet.Channel
 import PodSixNet.Server
-from time import sleep
-import thing,state,const,socket,pygame
+import state,const,socket,pygame
 
 class ClientChannel(PodSixNet.Channel.Channel):
 
@@ -41,6 +38,7 @@ class MarsServer(PodSixNet.Server.Server):
         """Call PodSixNet's server initialization method, then initialize the
         state of the game world.
         """
+        print "STARTING SERVER ON LOCALHOST"
         PodSixNet.Server.Server.__init__(self, *args, **kwargs)
         self.clock = pygame.time.Clock()
         self.state = state.State()
@@ -79,6 +77,7 @@ class MarsServer(PodSixNet.Server.Server):
 
     def update(self):
         """Call every frame to keep connection and game state updated."""
+        self.clock.tick(const.FPS)
         self.state.update()
         self.Pump()
 
@@ -90,7 +89,6 @@ class MarsServer(PodSixNet.Server.Server):
             data = {'action':'update','package':package}
             channel.Send(data)
 
-print "STARTING SERVER ON LOCALHOST"
 thisServer = MarsServer(localaddr = (socket.gethostname(), const.PORT) )
 while True:
     thisServer.clock.tick(const.FPS)

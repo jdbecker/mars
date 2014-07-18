@@ -89,10 +89,3 @@ class Client(ConnectionListener):
                     self.Send({'action':'button','button':'UP'})
                 if event.key == pygame.K_DOWN:
                     self.Send({'action':'button','button':'DOWN'})
-
-
-c = Client()
-while c.screen.run:
-    c.update()
-c.Send({'action':'disconnected','data':None})
-c.Pump()
